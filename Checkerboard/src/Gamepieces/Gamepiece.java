@@ -3,9 +3,11 @@ package Gamepieces;
 public class Gamepiece {
     int xPos;
     int yPos;
+
      public Gamepiece() {
          xPos = 0;
          yPos = 0;
+
      }
 
      public void setCoordinates(int x, int y) {

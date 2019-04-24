@@ -1,9 +1,7 @@
 import Gamepieces.Gamepiece;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 
 
 public class CheckerBoard extends JPanel {
@@ -12,6 +10,7 @@ public class CheckerBoard extends JPanel {
 // Graphics for the board
     public void paint(Graphics g) {
         //Fill in the checkerboard design
+        Graphics2D g2 = (Graphics2D)g;
         g.fillRect(100, 100, 400, 400);
         for(int i = 100; i <= 400; i+=100) {
             for(int j = 100; j <= 400; j+=100) {
@@ -20,6 +19,22 @@ public class CheckerBoard extends JPanel {
                 g.fillRect(i, j, 50, 50);
             }
         }
+
+        // Sets font for the text
+        Font font = new Font("Serif", Font.PLAIN, 55);
+        g2.setFont(font);
+        g2.setColor(Color.orange);
+
+        // This displays the letters and numbers for choosing
+        g.drawString("A B C D E F G H", 100, 100);
+        g.drawString("1", 70, 145);
+        g.drawString("2", 70, 195);
+        g.drawString("3", 70, 245);
+        g.drawString("4", 70, 295);
+        g.drawString("5", 70, 345);
+        g.drawString("6", 70, 395);
+        g.drawString("7", 70, 445);
+        g.drawString("8", 70, 495);
 
 
 
@@ -73,6 +88,46 @@ public class CheckerBoard extends JPanel {
         frame.setBackground(Color.WHITE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+        // This code replaces one tile with another (The original tile is replaced with a zero, while the tile replaced becomes a 5)
+        int[][] locations = {{0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {2, 0, 2, 0, 2, 0, 2, 0},
+                {0, 2, 0, 2, 0, 2, 0, 2},
+                {2, 0, 2, 0, 2, 0, 2, 0}};
+
+        String entry;
+        String entry2;
+        int x;
+        int y;
+        int x2;
+        int y2;
+
+        while (3 < 4) {
+            entry = JOptionPane.showInputDialog(null, "Enter the column number:");
+            x = Integer.parseInt(entry);
+            entry = JOptionPane.showInputDialog(null, "Enter the row letter:");
+            y = Integer.parseInt(entry);
+
+            entry2 = JOptionPane.showInputDialog(null, "Enter the row to replace:");
+            x2 = Integer.parseInt(entry2);
+            entry2 = JOptionPane.showInputDialog(null, "Enter the column to replace:");
+            y2 = Integer.parseInt(entry2);
+
+            JOptionPane.showMessageDialog(null, locations[x][y]);
+            locations[x][y] = 0;
+            locations[x2][y2] = 5;
+        }
+
+
+
+
+    }
+
+    public static void test() {
 
     }
 }
