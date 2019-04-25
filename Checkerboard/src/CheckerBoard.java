@@ -81,6 +81,7 @@ public class CheckerBoard extends JPanel {
 
 
     public static void main(String[] args) {
+        System.out.println("Blue goes first...");
         JFrame frame = new JFrame();
         frame.setSize(600, 600);
         frame.getContentPane().add(new CheckerBoard());
@@ -105,6 +106,7 @@ public class CheckerBoard extends JPanel {
         int y;
         int x2;
         int y2;
+        int moves = 1;
 
         while (3 < 4) {
             entry = JOptionPane.showInputDialog(null, "Enter the column number:");
@@ -120,6 +122,12 @@ public class CheckerBoard extends JPanel {
             JOptionPane.showMessageDialog(null, locations[x][y]);
             locations[x][y] = 0;
             locations[x2][y2] = 5;
+            moves = moves + 1;
+            System.out.print("Move " + moves);
+            if (moves % 2 == 0) {
+                System.out.println("(Blue's Turn)");
+            }
+            else System.out.println("(Red's Turn)");
         }
 
 
