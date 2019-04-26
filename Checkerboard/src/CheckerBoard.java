@@ -1,6 +1,7 @@
 import Gamepieces.Gamepiece;
 
 import java.awt.*;
+import java.util.Arrays;
 import javax.swing.*;
 
 
@@ -109,25 +110,62 @@ public class CheckerBoard extends JPanel {
         int moves = 1;
 
         while (3 < 4) {
-            entry = JOptionPane.showInputDialog(null, "Enter the column number:");
-            x = Integer.parseInt(entry);
-            entry = JOptionPane.showInputDialog(null, "Enter the row letter:");
-            y = Integer.parseInt(entry);
-
-            entry2 = JOptionPane.showInputDialog(null, "Enter the row to replace:");
-            x2 = Integer.parseInt(entry2);
-            entry2 = JOptionPane.showInputDialog(null, "Enter the column to replace:");
-            y2 = Integer.parseInt(entry2);
-
-            JOptionPane.showMessageDialog(null, locations[x][y]);
-            locations[x][y] = 0;
-            locations[x2][y2] = 5;
-            moves = moves + 1;
-            System.out.print("Move " + moves);
+            print2D(locations);
             if (moves % 2 == 0) {
-                System.out.println("(Blue's Turn)");
+                entry = JOptionPane.showInputDialog(null, "(R) Enter the row number:");
+                x = Integer.parseInt(entry);
+                entry = JOptionPane.showInputDialog(null, "(R) Enter the column letter:");
+                y = Integer.parseInt(entry);
+
+                entry2 = JOptionPane.showInputDialog(null, "(R) Enter the column to replace:");
+                x2 = Integer.parseInt(entry2);
+                entry2 = JOptionPane.showInputDialog(null, "(R) Enter the row to replace:");
+                y2 = Integer.parseInt(entry2);
             }
-            else System.out.println("(Red's Turn)");
+            else {
+                entry = JOptionPane.showInputDialog(null, "(B) Enter the row number:");
+                x = Integer.parseInt(entry);
+                entry = JOptionPane.showInputDialog(null, "(B) Enter the column letter:");
+                y = Integer.parseInt(entry);
+
+                entry2 = JOptionPane.showInputDialog(null, "(B) Enter the column to replace:");
+                x2 = Integer.parseInt(entry2);
+                entry2 = JOptionPane.showInputDialog(null, "(B) Enter the row to replace:");
+                y2 = Integer.parseInt(entry2);
+            }
+            if (moves % 2 == 0 && locations[x][y] != 1) {
+                JOptionPane.showMessageDialog(null, "You cheated not only the game, but yourself.\n" +
+                        "\n" +
+                        "You didn't grow. You didn't improve. You took a shortcut and gained nothing.\n" +
+                        "\n" +
+                        "You experienced a hollow victory. Nothing was risked and nothing was gained.\n" +
+                        "\n" +
+                        "It's sad that you don't know the difference.");
+                System.exit(0);
+            }
+            if (moves % 2 == 1 && locations[x][y] != 2) {
+                JOptionPane.showMessageDialog(null, "You cheated not only the game, but yourself.\n" +
+                        "\n" +
+                        "You didn't grow. You didn't improve. You took a shortcut and gained nothing.\n" +
+                        "\n" +
+                        "You experienced a hollow victory. Nothing was risked and nothing was gained.\n" +
+                        "\n" +
+                        "It's sad that you don't know the difference.");
+                System.exit(0);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, locations[x][y]);
+                locations[x][y] = 0;
+                locations[x2][y2] = 5;
+                moves = moves + 1;
+                System.out.print("Move " + moves);
+                if (moves % 2 == 0) {
+                    System.out.println("(Red's Turn)");
+                }
+                else System.out.println("(Blue's Turn)");
+            }
+
+
         }
 
 
@@ -135,7 +173,9 @@ public class CheckerBoard extends JPanel {
 
     }
 
-    public static void test() {
-
+    public static void print2D(int locations[][])
+    {
+        for (int[] row : locations)
+        System.out.println(Arrays.toString(row));
     }
 }
