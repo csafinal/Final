@@ -6,8 +6,7 @@ import javax.swing.*;
 
 
 public class CheckerBoard extends JPanel {
-    Gamepiece[][] white = new Gamepiece[3][4];
-    Gamepiece[][] blueforchase = new Gamepiece[3][4];
+
 // Graphics for the board
     public void paint(Graphics g) {
         //Fill in the checkerboard design
@@ -19,6 +18,7 @@ public class CheckerBoard extends JPanel {
                 g.setColor(Color.LIGHT_GRAY);
                 g.fillRect(i, j, 50, 50);
             }
+            Gamepiece.paint(g);
         }
 
         // Sets font for the text
@@ -49,33 +49,7 @@ public class CheckerBoard extends JPanel {
 
 
 
-        for (int i = 0; i < white.length; i++) {
-            for (int x = 0; x < white[i].length; x++) {
-                white[i][x] = new Gamepiece();
-                white[i][x].setCoordinates((150 + (x * 100)) - (i == 1 ? 50 : 0),100 + (i * 50));
-            }
-        }
 
-        for (Gamepiece[] row : white) {
-            for (Gamepiece piece : row) {
-                g.setColor(Color.red);
-                g.fillOval(piece.getX(),piece.getY(),50,50);
-            }
-        }
-
-        for (int i = 0; i < blueforchase.length; i++) {
-            for (int x = 0; x < blueforchase[i].length; x++) {
-                blueforchase[i][x] = new Gamepiece();
-                blueforchase[i][x].setCoordinates((100 + (x * 100)) + (i == 1 ? 50 : 0),450 - (i * 50));
-            }
-        }
-
-        for (Gamepiece[] row : blueforchase) {
-            for (Gamepiece piece : row) {
-                g.setColor(Color.blue);
-                g.fillOval(piece.getX(),piece.getY(),50,50);
-            }
-        }
     }
 
 
@@ -92,14 +66,16 @@ public class CheckerBoard extends JPanel {
         frame.setVisible(true);
 
         // This code replaces one tile with another (The original tile is replaced with a zero, while the tile replaced becomes a 5)
-        int[][] locations = {{0, 1, 0, 1, 0, 1, 0, 1},
-                {1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {2, 0, 2, 0, 2, 0, 2, 0},
-                {0, 2, 0, 2, 0, 2, 0, 2},
-                {2, 0, 2, 0, 2, 0, 2, 0}};
+        int[][] locations = {
+                {0, 1, 2, 3, 4, 5, 6, 7, 8},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {2, 1, 0, 1, 0, 1, 0, 1, 0},
+                {3, 0, 1, 0, 1, 0, 1, 0, 1},
+                {4, 0, 0, 0, 0, 0, 0, 0, 0},
+                {5, 0, 0, 0, 0, 0, 0, 0, 0},
+                {6, 2, 0, 2, 0, 2, 0, 2, 0},
+                {7, 0, 2, 0, 2, 0, 2, 0, 2},
+                {8, 2, 0, 2, 0, 2, 0, 2, 0}};
 
         String entry;
         String entry2;
@@ -108,6 +84,7 @@ public class CheckerBoard extends JPanel {
         int x2;
         int y2;
         int moves = 1;
+
 
         while (3 < 4) {
             print2D(locations);
@@ -134,29 +111,21 @@ public class CheckerBoard extends JPanel {
                 y2 = Integer.parseInt(entry2);
             }
             if (moves % 2 == 0 && locations[x][y] != 1) {
-                JOptionPane.showMessageDialog(null, "You cheated not only the game, but yourself.\n" +
-                        "\n" +
-                        "You didn't grow. You didn't improve. You took a shortcut and gained nothing.\n" +
-                        "\n" +
-                        "You experienced a hollow victory. Nothing was risked and nothing was gained.\n" +
-                        "\n" +
-                        "It's sad that you don't know the difference.");
+                JOptionPane.showMessageDialog(null, "Cheater");
                 System.exit(0);
             }
             if (moves % 2 == 1 && locations[x][y] != 2) {
-                JOptionPane.showMessageDialog(null, "You cheated not only the game, but yourself.\n" +
-                        "\n" +
-                        "You didn't grow. You didn't improve. You took a shortcut and gained nothing.\n" +
-                        "\n" +
-                        "You experienced a hollow victory. Nothing was risked and nothing was gained.\n" +
-                        "\n" +
-                        "It's sad that you don't know the difference.");
+                JOptionPane.showMessageDialog(null, "Cheater");
                 System.exit(0);
             }
             else {
                 JOptionPane.showMessageDialog(null, locations[x][y]);
                 locations[x][y] = 0;
-                locations[x2][y2] = 5;
+                if (moves % 2 == 0) {
+                    locations[x2][y2] = 1;
+                }
+                else locations[x2][y2] = 2;
+
                 moves = moves + 1;
                 System.out.print("Move " + moves);
                 if (moves % 2 == 0) {
