@@ -67,19 +67,35 @@ public class CheckerBoard extends JPanel {
         frame.setBackground(Color.WHITE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        array();
+        rules(locations);
 
+
+    }
+
+    static String[][] locations;
+
+    public static void array() {
         // This array sets the values of the board with 1 being red, 2 being blue, 0 being empty space, and 9 being the unplayable area
-        int[][] locations = {
-                {0, 1, 2, 3, 4, 5, 6, 7, 8},
-                {1, 9, 1, 9, 1, 9, 1, 9, 1},
-                {2, 1, 9, 1, 9, 1, 9, 1, 9},
-                {3, 9, 1, 9, 1, 9, 1, 9, 1},
-                {4, 0, 9, 0, 9, 0, 9, 0, 9},
-                {5, 9, 0, 9, 0, 9, 0, 9, 0},
-                {6, 2, 9, 2, 9, 2, 9, 2, 9},
-                {7, 9, 2, 9, 2, 9, 2, 9, 2},
-                {8, 2, 9, 2, 9, 2, 9, 2, 9}};
+        String[][] displayArray = {
+                {"0", "1", "2", "3", "4", "5", "6", "7", "8"},
+                {"1", "X", "R", "X", "R", "X", "R", "X", "R"},
+                {"2", "R", "X", "R", "X", "R", "X", "R", "X"},
+                {"3", "X", "R", "X", "R", "X", "R", "X", "R"},
+                {"4", "0", "X", "0", "X", "0", "X", "0", "X"},
+                {"5", "X", "0", "X", "0", "X", "0", "X", "0"},
+                {"6", "B", "X", "B", "X", "B", "X", "B", "X"},
+                {"7", "X", "B", "X", "B", "X", "B", "X", "B"},
+                {"8", "B", "X", "B", "X", "B", "X", "B", "X"}};
 
+
+
+        locations = displayArray;
+
+
+    }
+
+    public static void rules(String[][] locations) {
         String entry;
         String entry2;
         int x;
@@ -88,47 +104,56 @@ public class CheckerBoard extends JPanel {
         int y2;
         int moves = 1;
 
-
-
         while (3 < 4) {
             print2D(locations);
             if (moves % 2 == 0) {
-                entry = JOptionPane.showInputDialog(null, "(R) Enter the row number:");
+                entry = JOptionPane.showInputDialog(null, "(1) Enter the row number:");
                 x = Integer.parseInt(entry);
-                entry = JOptionPane.showInputDialog(null, "(R) Enter the column letter:");
+                entry = JOptionPane.showInputDialog(null, "(1) Enter the column letter:");
                 y = Integer.parseInt(entry);
 
-                entry2 = JOptionPane.showInputDialog(null, "(R) Enter the row to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(1) Enter the row to replace:");
                 x2 = Integer.parseInt(entry2);
-                entry2 = JOptionPane.showInputDialog(null, "(R) Enter the column to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(1) Enter the column to replace:");
                 y2 = Integer.parseInt(entry2);
             }
             else {
-                entry = JOptionPane.showInputDialog(null, "(B) Enter the row number:");
+                entry = JOptionPane.showInputDialog(null, "(2) Enter the row number:");
                 x = Integer.parseInt(entry);
-                entry = JOptionPane.showInputDialog(null, "(B) Enter the column letter:");
+                entry = JOptionPane.showInputDialog(null, "(2) Enter the column letter:");
                 y = Integer.parseInt(entry);
 
-                entry2 = JOptionPane.showInputDialog(null, "(B) Enter the row to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(2) Enter the row to replace:");
                 x2 = Integer.parseInt(entry2);
-                entry2 = JOptionPane.showInputDialog(null, "(B) Enter the column to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(2) Enter the column to replace:");
                 y2 = Integer.parseInt(entry2);
             }
 
-            if (moves % 2 == 0 && locations[x][y] != 1) {
+            if (x2 != x - 1 && moves % 2 != 0) {
+                System.out.println("Invalid Number!");
+                array();
+
+            }
+            else if (x2 != x + 1 && moves % 2 == 0) {
+                System.out.println("Invalid Number!");
+                array();
+
+            }
+
+            if (moves % 2 == 0 && locations[x][y].equals("R")) {
                 JOptionPane.showMessageDialog(null, "Cheater");
                 System.exit(0);
             }
-            if (moves % 2 == 1 && locations[x][y] != 2) {
+            if (moves % 2 == 1 && !locations[x][y].equals("R")) {
                 JOptionPane.showMessageDialog(null, "Cheater");
                 System.exit(0);
             }
             else {
-                locations[x][y] = 0;
+                locations[x][y] = "0";
                 if (moves % 2 == 0) {
-                    locations[x2][y2] = 1;
+                    locations[x2][y2] = "R";
                 }
-                else locations[x2][y2] = 2;
+                else locations[x2][y2] = "B";
 
                 moves = moves + 1;
                 System.out.print("Move " + moves);
@@ -137,85 +162,12 @@ public class CheckerBoard extends JPanel {
                 }
                 else System.out.println("(Blue's Turn)");
             }
-            redraw(locations, x, y, graphics, frame);
-
-
         }
-
-
-
-
     }
 
-    public static void print2D(int locations[][])
+    public static void print2D(String locations[][])
     {
-        for (int[] row : locations)
+        for (String[] row : locations)
             System.out.println(Arrays.toString(row));
     }
-
-    public static void redraw(int locations[][], int x, int y, Graphics g, JFrame frame) {
-        int rowLocation;
-        int columnLocation;
-        Graphics2D g2 = (Graphics2D)g;
-
-        if (x == 1) {
-            rowLocation = 150;
-        }
-        else if (x == 2) {
-            rowLocation = 200;
-        }
-        else if (x == 3) {
-            rowLocation = 250;
-        }
-        else if (x == 4) {
-            rowLocation = 300;
-        }
-        else if (x == 5) {
-            rowLocation = 350;
-        }
-        else if (x == 6) {
-            rowLocation = 400;
-        }
-        else if (x == 7) {
-            rowLocation = 450;
-        }
-        else if (x == 8) {
-            rowLocation = 500;
-        }
-        else rowLocation = 0;
-
-        if (y == 1) {
-            columnLocation = 150;
-        }
-        else if (y == 2) {
-            columnLocation = 200;
-        }
-        else if (y == 3) {
-            columnLocation = 250;
-        }
-        else if (y == 4) {
-            columnLocation = 300;
-        }
-        else if (y == 5) {
-            columnLocation = 350;
-        }
-        else if (y == 6) {
-            columnLocation = 400;
-        }
-        else if (y == 7) {
-            columnLocation = 450;
-        }
-        else if (y == 8) {
-            columnLocation = 500;
-        }
-        else columnLocation = 0;
-        g.clearRect(rowLocation, columnLocation, 100, 100);
-        g.setColor(Color.green);
-        g.fillRect(rowLocation, columnLocation, 100, 100);
-        System.out.println(rowLocation + " " + columnLocation);
-
-
-
-    }
-
 }
