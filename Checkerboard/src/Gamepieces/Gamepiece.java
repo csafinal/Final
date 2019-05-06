@@ -7,6 +7,7 @@ public class Gamepiece {
     int yPos;
 
     public static void paint(Graphics g) {
+        // Creates an array of game pieces and prints them on the board
         Gamepiece[][] white = new Gamepiece[3][4];
         Gamepiece[][] blueforchase = new Gamepiece[3][4];
         for (int i = 0; i < white.length; i++) {
@@ -26,7 +27,7 @@ public class Gamepiece {
         for (int i = 0; i < blueforchase.length; i++) {
             for (int x = 0; x < blueforchase[i].length; x++) {
                 blueforchase[i][x] = new Gamepiece();
-                blueforchase[i][x].setCoordinates((100 + (x * 100)) + (i == 1 ? 50 : 0),450 - (i * 50));
+                blueforchase[i][x].setCoordinates((100 + (x * 100)) + (i == 1 ? 50 : 0),450 - (i * 50)); // Sets the locations for the pieces
             }
         }
 

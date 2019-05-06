@@ -9,7 +9,7 @@ public class CheckerBoard extends JPanel {
 
     Graphics graphics;
 
-// Graphics for the board
+    // Graphics for the board
     public void paint(Graphics g) {
         //Fill in the checkerboard design
         Graphics2D g2 = (Graphics2D)g;
@@ -39,9 +39,7 @@ public class CheckerBoard extends JPanel {
         g.drawString("7", 70, 445);
         g.drawString("8", 70, 495);
 
-
-
-
+        //Builds the board
         for(int i = 150; i <= 450; i+=100) {
             for(int j = 150; j <= 450; j+=100) {
                 g.clearRect(i, j, 50, 50);
@@ -59,6 +57,7 @@ public class CheckerBoard extends JPanel {
 
 
     public CheckerBoard() {
+        //Creates the frame for the board
         System.out.println("Blue goes first...");
         JFrame frame = new JFrame();
         frame.setSize(600, 600);
@@ -67,35 +66,31 @@ public class CheckerBoard extends JPanel {
         frame.setBackground(Color.WHITE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        array();
-        rules(locations);
 
-
-    }
-
-    static String[][] locations;
-
-    public static void array() {
         // This array sets the values of the board with 1 being red, 2 being blue, 0 being empty space, and 9 being the unplayable area
-        String[][] displayArray = {
-                {"0", "1", "2", "3", "4", "5", "6", "7", "8"},
-                {"1", "X", "R", "X", "R", "X", "R", "X", "R"},
-                {"2", "R", "X", "R", "X", "R", "X", "R", "X"},
-                {"3", "X", "R", "X", "R", "X", "R", "X", "R"},
-                {"4", "0", "X", "0", "X", "0", "X", "0", "X"},
-                {"5", "X", "0", "X", "0", "X", "0", "X", "0"},
-                {"6", "B", "X", "B", "X", "B", "X", "B", "X"},
-                {"7", "X", "B", "X", "B", "X", "B", "X", "B"},
-                {"8", "B", "X", "B", "X", "B", "X", "B", "X"}};
+        int[][] locations = {
+                {0, 1, 2, 3, 4, 5, 6, 7, 8},
+                {1, 9, 1, 9, 1, 9, 1, 9, 1},
+                {2, 1, 9, 1, 9, 1, 9, 1, 9},
+                {3, 9, 1, 9, 1, 9, 1, 9, 1},
+                {4, 0, 9, 0, 9, 0, 9, 0, 9},
+                {5, 9, 0, 9, 0, 9, 0, 9, 0},
+                {6, 2, 9, 2, 9, 2, 9, 2, 9},
+                {7, 9, 2, 9, 2, 9, 2, 9, 2},
+                {8, 2, 9, 2, 9, 2, 9, 2, 9}};
 
 
-
-        locations = displayArray;
-
-
+        rules(locations);
     }
 
-    public static void rules(String[][] locations) {
+    // Prints the board
+    public static void print2D(int locations[][])
+    {
+        for (int[] row : locations)
+            System.out.println(Arrays.toString(row));
+    }
+
+    public static void rules(int[][] locations) {
         String entry;
         String entry2;
         int x;
@@ -103,57 +98,104 @@ public class CheckerBoard extends JPanel {
         int x2;
         int y2;
         int moves = 1;
-
+        // Allows for user input and moves pieces if they follow the rules
         while (3 < 4) {
             print2D(locations);
             if (moves % 2 == 0) {
-                entry = JOptionPane.showInputDialog(null, "(1) Enter the row number:");
+                entry = JOptionPane.showInputDialog(null, "(R) Enter the row number:");
                 x = Integer.parseInt(entry);
-                entry = JOptionPane.showInputDialog(null, "(1) Enter the column letter:");
+                entry = JOptionPane.showInputDialog(null, "(R) Enter the column letter:");
                 y = Integer.parseInt(entry);
 
-                entry2 = JOptionPane.showInputDialog(null, "(1) Enter the row to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(R) Enter the row to replace:");
                 x2 = Integer.parseInt(entry2);
-                entry2 = JOptionPane.showInputDialog(null, "(1) Enter the column to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(R) Enter the column to replace:");
                 y2 = Integer.parseInt(entry2);
             }
             else {
-                entry = JOptionPane.showInputDialog(null, "(2) Enter the row number:");
+                entry = JOptionPane.showInputDialog(null, "(B) Enter the row number:");
                 x = Integer.parseInt(entry);
-                entry = JOptionPane.showInputDialog(null, "(2) Enter the column letter:");
+                entry = JOptionPane.showInputDialog(null, "(B) Enter the column letter:");
                 y = Integer.parseInt(entry);
 
-                entry2 = JOptionPane.showInputDialog(null, "(2) Enter the row to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(B) Enter the row to replace:");
                 x2 = Integer.parseInt(entry2);
-                entry2 = JOptionPane.showInputDialog(null, "(2) Enter the column to replace:");
+                entry2 = JOptionPane.showInputDialog(null, "(B) Enter the column to replace:");
                 y2 = Integer.parseInt(entry2);
             }
-
-            if (x2 != x - 1 && moves % 2 != 0) {
-                System.out.println("Invalid Number!");
-                array();
-
-            }
-            else if (x2 != x + 1 && moves % 2 == 0) {
-                System.out.println("Invalid Number!");
-                array();
+            if (x2 != x - 1 && x2 != x - 2 && moves % 2 != 0) {
+                JOptionPane.showMessageDialog(null, "Invalid Number!1\n");
+                rules(locations);
 
             }
+            else if (x2 != x + 1 && x2 != x + 2 && moves % 2 == 0) {
+                JOptionPane.showMessageDialog(null, "Invalid Number!2\n");
+                rules(locations);
 
-            if (moves % 2 == 0 && locations[x][y].equals("R")) {
-                JOptionPane.showMessageDialog(null, "Cheater");
-                System.exit(0);
             }
-            if (moves % 2 == 1 && !locations[x][y].equals("R")) {
-                JOptionPane.showMessageDialog(null, "Cheater");
-                System.exit(0);
+            if (y2 != y - 1 && y2 != y - 2 && y2 != y + 1 && y2 != y + 2) {
+                JOptionPane.showMessageDialog(null, "Invalid Number! X is too far!\n");
+                rules(locations);
+
+            }
+
+            if (moves % 2 == 0 && locations[x][y] == 2) {
+                JOptionPane.showMessageDialog(null, "Invalid Number!3\n");
+                rules(locations);
+            }
+            if (moves % 2 == 1 && locations[x][y] != 2) {
+                JOptionPane.showMessageDialog(null, "Invalid Number!4\n");
+                rules(locations);
             }
             else {
-                locations[x][y] = "0";
-                if (moves % 2 == 0) {
-                    locations[x2][y2] = "R";
+                locations[x][y] = 0;
+
+                if (x2 == x - 2) {
+                    if (y2 == y - 2) {
+                        if (locations[x + 1][y + 1] == 2 || locations[x + 1][y + 1] == 1) {
+                            locations[x + 1][y + 1] = 0;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Invalid Jump!1\n");
+                            rules(locations);
+                        }
+                    }
+                    else if (y2 == y + 2) {
+                        if (locations[x + 1][y - 1] == 2 || locations[x + 1][y - 1] == 1) {
+                            locations[x + 1][y - 1] = 0;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Invalid Jump!2\n");
+                            rules(locations);
+                        }
+                    }
                 }
-                else locations[x2][y2] = "B";
+
+                if (x2 == x + 2) {
+                    if (y2 == y - 2) {
+                        if (locations[x - 1][y + 1] == 2 || locations[x - 1][y + 1] == 1) {
+                            locations[x - 1][y + 1] = 0;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Invalid Jump!3\n");
+                            rules(locations);
+                        }
+                    }
+                    else if (y2 == y + 2) {
+                        if (locations[x + 1][y - 1] == 2 || locations[x + 1][y - 1] == 1) {
+                            locations[x + 1][y - 1] = 0;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Invalid Jump!4\n");
+                            rules(locations);
+                        }
+                    }
+                }
+
+                if (moves % 2 == 0) {
+                    locations[x2][y2] = 1;
+                }
+                else locations[x2][y2] = 2;
 
                 moves = moves + 1;
                 System.out.print("Move " + moves);
@@ -162,12 +204,9 @@ public class CheckerBoard extends JPanel {
                 }
                 else System.out.println("(Blue's Turn)");
             }
-        }
-    }
 
-    public static void print2D(String locations[][])
-    {
-        for (String[] row : locations)
-            System.out.println(Arrays.toString(row));
+
+
+        }
     }
 }
