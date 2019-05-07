@@ -1,6 +1,8 @@
 import Gamepieces.Gamepiece;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import javax.swing.*;
 
@@ -123,74 +125,40 @@ public class CheckerBoard extends JPanel {
                 entry2 = JOptionPane.showInputDialog(null, "(B) Enter the column to replace:");
                 y2 = Integer.parseInt(entry2);
             }
+
+            // Rules for moving the game pieces
+
             if (x2 != x - 1 && x2 != x - 2 && moves % 2 != 0) {
                 JOptionPane.showMessageDialog(null, "Invalid Number!1\n");
+                System.out.println("");
                 rules(locations);
 
             }
             else if (x2 != x + 1 && x2 != x + 2 && moves % 2 == 0) {
                 JOptionPane.showMessageDialog(null, "Invalid Number!2\n");
+                System.out.println("");
                 rules(locations);
 
             }
             if (y2 != y - 1 && y2 != y - 2 && y2 != y + 1 && y2 != y + 2) {
                 JOptionPane.showMessageDialog(null, "Invalid Number! X is too far!\n");
+                System.out.println("");
                 rules(locations);
 
             }
 
             if (moves % 2 == 0 && locations[x][y] == 2) {
                 JOptionPane.showMessageDialog(null, "Invalid Number!3\n");
+                System.out.println("");
                 rules(locations);
             }
             if (moves % 2 == 1 && locations[x][y] != 2) {
                 JOptionPane.showMessageDialog(null, "Invalid Number!4\n");
+                System.out.println("");
                 rules(locations);
             }
             else {
                 locations[x][y] = 0;
-
-                if (x2 == x - 2) {
-                    if (y2 == y - 2) {
-                        if (locations[x + 1][y + 1] == 2 || locations[x + 1][y + 1] == 1) {
-                            locations[x + 1][y + 1] = 0;
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Invalid Jump!1\n");
-                            rules(locations);
-                        }
-                    }
-                    else if (y2 == y + 2) {
-                        if (locations[x + 1][y - 1] == 2 || locations[x + 1][y - 1] == 1) {
-                            locations[x + 1][y - 1] = 0;
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Invalid Jump!2\n");
-                            rules(locations);
-                        }
-                    }
-                }
-
-                if (x2 == x + 2) {
-                    if (y2 == y - 2) {
-                        if (locations[x - 1][y + 1] == 2 || locations[x - 1][y + 1] == 1) {
-                            locations[x - 1][y + 1] = 0;
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Invalid Jump!3\n");
-                            rules(locations);
-                        }
-                    }
-                    else if (y2 == y + 2) {
-                        if (locations[x + 1][y - 1] == 2 || locations[x + 1][y - 1] == 1) {
-                            locations[x + 1][y - 1] = 0;
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Invalid Jump!4\n");
-                            rules(locations);
-                        }
-                    }
-                }
 
                 if (moves % 2 == 0) {
                     locations[x2][y2] = 1;
@@ -198,6 +166,18 @@ public class CheckerBoard extends JPanel {
                 else locations[x2][y2] = 2;
 
                 moves = moves + 1;
+
+                //Prints the moves to a text document
+                PrintWriter out = null;
+                try {
+                    out = new PrintWriter("moves.txt");
+                    out.println("You Made " + moves + " Moves");
+                    out.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+
+                }
+
                 System.out.print("Move " + moves);
                 if (moves % 2 == 0) {
                     System.out.println("(Red's Turn)");
